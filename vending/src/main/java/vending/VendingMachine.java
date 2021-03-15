@@ -1,8 +1,12 @@
 package vending;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * This represents a vending machine.
@@ -10,10 +14,23 @@ import java.util.ArrayList;
 public class VendingMachine {
     private HashMap<String, Snack> snacks; 
     private ArrayList<String> spots;
-
+    
     public VendingMachine(ArrayList<String> spots){
         this.spots = spots;
         snacks = new HashMap<>();
+    }
+
+    public void addSnacks(ArrayList<Snack> items) throws Exception{
+        Iterator<Snack> snackItr = items.iterator();
+        for(String spot : spots){
+            if(snacks.get(spot) == null && snackItr.hasNext()){
+                snacks.put(spot, snackItr.next());
+            }
+        }
+
+        if(snackItr.hasNext()){
+            throw new Exception("Input has too many snacks.");
+        }
     }
 
     public void addSnack(String spot, Snack snack) throws Exception{
@@ -56,7 +73,24 @@ public class VendingMachine {
     }
 
     public void show(){
-        System.out.println(snacks);
+        spots.stream()
+        .sorted()
+        .collect(Collectors.groupingBy(it -> it.charAt(0)))
+        .values()
+        .forEach(row -> {
+            String format = "%-12.12s ";
+            String label = "";
+            String name = "";
+            String price = "";
+
+            for(String spot : row){
+                Snack snack = snacks.get(spot);
+                label += String.format(format, snack==null? spot : spot + "(" + snack.getAmount() + ")");
+                name += String.format(format, snack==null? "" : snack.getName());
+                price += String.format(format, snack==null? "" : snack.getPrice());
+            }
+            System.out.println(label + "\n" + name + "\n" + price + "\n");
+        });
     }
     
 }

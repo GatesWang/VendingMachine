@@ -10,14 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class VendingMachineTest {
     /**
-     * Tries to get add to an invalid spot
+     * test adding to an invalid spot
      */
     @Test
     void testAddInvalidSpot(){
-        Integer amount = 10;
-        Double price = 10.0;
-        String name = "oreos";
-        Snack snack = new Snack(amount, price, name);
+        Snack snack = new Snack(2, 5.0, "chips");
         ArrayList<String> spots = new ArrayList<>();
         spots.add("A1");
         spots.add("A2");
@@ -29,15 +26,12 @@ class VendingMachineTest {
     }
 
     /**
-     * Tries to get add to an spot that already has a snack
+     * test adding to an spot that already has a snack
      */
     @Test
     void testAddFilledSpot(){
-        Integer amount = 10;
-        Double price = 10.0;
-        String name = "oreos";
-        Snack snack = new Snack(amount, price, name);
-        Snack snack2 = new Snack(amount, price, name);
+        Snack snack1 = new Snack(2, 5.0, "chips");
+        Snack snack2 = new Snack(1, 5.0, "oreos");
         ArrayList<String> spots = new ArrayList<>();
         spots.add("A1");
         spots.add("A2");
@@ -51,7 +45,7 @@ class VendingMachineTest {
     }
     
     /**
-     * Tries to remove an invalid spot
+     * test removing an invalid spot
      */
     @Test
     void testRemoveInvalidSpot() {
@@ -66,7 +60,7 @@ class VendingMachineTest {
     }
     
     /**
-     * Tries to remove an an empty spot
+     * test removing an an empty spot
      */
     @Test
     void testRemoveEmptySpot() {
@@ -81,7 +75,7 @@ class VendingMachineTest {
     }
     
     /**
-     * Tries to vend an invalid spot
+     * test vending an invalid spot
      */
     @Test
     void testVendInvalidSpot() {
@@ -96,7 +90,7 @@ class VendingMachineTest {
     }
 
     /**
-     * Tries to vend an empty spot
+     * test vending an empty spot
      */
     @Test
     void testVendEmptySpot() {
@@ -115,10 +109,7 @@ class VendingMachineTest {
      */
     @Test
     void testVendRemoveSnack() {
-        Integer amount = 1;
-        Double price = 10.0;
-        String name = "oreos";
-        Snack snack = new Snack(amount, price, name);
+        Snack snack = new Snack(1, 5.0, "oreos");
         ArrayList<String> spots = new ArrayList<>();
         spots.add("A1");
         spots.add("A2");
@@ -129,5 +120,28 @@ class VendingMachineTest {
             machine.vendSnack("A1");
         });
         assertEquals("There is nothing to vend.", exception.getMessage());
+    }
+
+    /**
+     * test to see what happens when we try to add too many snacks
+     */
+    @Test
+    void testAddSnacksTooMany() {
+        ArrayList<Snack> snacks = new ArrayList<>();
+        Snack snack1 = new Snack(1, 5.0, "oreos");
+        Snack snack2 = new Snack(2, 3.9, "chips");
+        Snack snack3 = new Snack(1, 2.9, "candy");
+        snacks.add(snack1);
+        snacks.add(snack2);
+        snacks.add(snack3);
+
+        ArrayList<String> spots = new ArrayList<>();
+        spots.add("A1");
+        spots.add("A2");
+        VendingMachine machine = new VendingMachine(spots);
+        Throwable exception = assertThrows(Exception.class, () -> {
+            machine.addSnacks(snacks);
+        });
+        assertEquals("Input has too many snacks.", exception.getMessage());
     }
 }
