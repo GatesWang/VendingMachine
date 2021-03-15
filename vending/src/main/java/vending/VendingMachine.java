@@ -71,7 +71,7 @@ public class VendingMachine {
             snacks.remove(spot);
         }
     }
-
+    
     public void show(){
         spots.stream()
         .sorted()
