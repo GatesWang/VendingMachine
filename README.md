@@ -17,6 +17,9 @@ Use exec-maven-plugin to run the project. This should be included in pom.xml.
 ```
 ![Image of the program](https://i.imgur.com/ilmCcPT.png)
 
+# Experience
+The project currently is a text based project. However, there is good separation between the domain layer and the 
+the application layer, so it can be converted to a GUI in the future. 
 
 
 
