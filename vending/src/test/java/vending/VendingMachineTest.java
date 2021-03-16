@@ -20,7 +20,7 @@ class VendingMachineTest {
         spots.add("A2");
         VendingMachine machine = new VendingMachine(spots);
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.addSnack("B1", snack);
+            machine.addOption("B1", snack);
         });
         assertEquals("That spot does not exist in the vending machine.", exception.getMessage());
     }
@@ -38,8 +38,8 @@ class VendingMachineTest {
         VendingMachine machine = new VendingMachine(spots);
 
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.addSnack("A1", snack);
-            machine.addSnack("A1", snack2);
+            machine.addOption("A1", snack1);
+            machine.addOption("A1", snack2);
         });
         assertEquals("There is another snack in that spot.", exception.getMessage());
     }
@@ -54,7 +54,7 @@ class VendingMachineTest {
         spots.add("A2");
         VendingMachine machine = new VendingMachine(spots);
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.removeSnack("B1");
+            machine.removeOption("B1");
         });
         assertEquals("That spot does not exist in the vending machine.", exception.getMessage());
     }
@@ -69,7 +69,7 @@ class VendingMachineTest {
         spots.add("A2");
         VendingMachine machine = new VendingMachine(spots);
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.removeSnack("A1");
+            machine.removeOption("A1");
         });
         assertEquals("There is nothing to remove.", exception.getMessage());
     }
@@ -115,7 +115,7 @@ class VendingMachineTest {
         spots.add("A2");
         VendingMachine machine = new VendingMachine(spots);
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.addSnack("A1", snack);
+            machine.addOption("A1", snack);
             machine.vendSnack("A1");
             machine.vendSnack("A1");
         });
@@ -126,7 +126,7 @@ class VendingMachineTest {
      * test to see what happens when we try to add too many snacks
      */
     @Test
-    void testAddSnacksTooMany() {
+    void testAddOptionsTooMany() {
         ArrayList<Snack> snacks = new ArrayList<>();
         Snack snack1 = new Snack(1, 5.0, "oreos");
         Snack snack2 = new Snack(2, 3.9, "chips");
@@ -140,8 +140,8 @@ class VendingMachineTest {
         spots.add("A2");
         VendingMachine machine = new VendingMachine(spots);
         Throwable exception = assertThrows(Exception.class, () -> {
-            machine.addSnacks(snacks);
+            machine.addOptions(snacks);
         });
-        assertEquals("Input has too many snacks.", exception.getMessage());
+        assertEquals("Trying to add too many options.", exception.getMessage());
     }
 }
